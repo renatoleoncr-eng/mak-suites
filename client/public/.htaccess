@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1. Proxy para la API (Redirigir /api a Node.js en puerto 3000)
+  # Solo funciona si mod_proxy está activado en el servidor.
+  # Si esto falla (Error 500), comenta estas líneas y configura la URL completa en el frontend.
+  RewriteRule ^api/(.*)$ http://127.0.0.1:3001/api/$1 [P,L]
+
+  # 2. Configuración SPA (React Router)
+  # Cualquier ruta que no sea un archivo o carpeta real, va a index.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [QSA,L]
+</IfModule>
